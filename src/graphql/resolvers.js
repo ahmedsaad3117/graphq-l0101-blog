@@ -11,7 +11,7 @@ module.exports = {
     };
   },
 
-  createUser: async function ({ data }, ctx) {
+  createUser: async function ({ data }) {
     const { name, email, gender, password, age } = data;
 
     const existingEmail = await User.findOne({ email });
@@ -32,7 +32,7 @@ module.exports = {
     return { ...savedUser._doc, id: savedUser._doc._id.toString() };
   },
 
-  login: async function (args, ctx) {
+  login: async function (args) {
     const { email, password } = args.data;
 
     const user = await User.findByCredentials(email, password);
@@ -42,7 +42,13 @@ module.exports = {
     return { id: user._id.toString(), token };
   },
 
-  createPost: async function (args, ctx) {
+  createPost: async function (args, req) {
+    if(!req.isAuth){
+      const error = new Error("Please authenticate")
+      error.code = 401
+      throw error
+    }
+
     const { title, body, imageUrl } = args.data;
     const errors = [];
 
@@ -64,5 +70,7 @@ module.exports = {
 
     const post = new Post({ title: "tests", body: "tests", imageUrl });
     await post.save();
+
+    return post;
   },
 };

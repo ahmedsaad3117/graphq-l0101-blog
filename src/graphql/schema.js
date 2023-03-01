@@ -43,11 +43,12 @@ module.exports = buildSchema(/* GraphQL */ `
     id: ID!
     title: String!
     body: String!
+    imageUrl: String
   }
 
   type AuthData {
     id: ID!
-    token: String!
+    token: String!  
   }
 
   enum Gender {

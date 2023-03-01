@@ -1,8 +1,8 @@
 const express = require("express");
 const swaggerUi = require("swagger-ui-express");
+const auth = require("./middleware/auth");
 const swaggerDocument = require("../swagger.json");
 const { graphqlHTTP } = require("express-graphql");
-const { db } = require("./graphql/db");
 
 require("./db/mongoose");
 
@@ -14,13 +14,14 @@ const cors = require("cors");
 const app = express();
 app.use(cors()); // create you own cors
 
+app.use(auth); // add auth
+
 app.use(
   "/graphql",
   graphqlHTTP({
     schema: graphqlSchema,
     rootValue: graphqlResolver,
     graphiql: true,
-    context: db,
     formatError(err) {
       if (!err.originalError) {
         return err;
