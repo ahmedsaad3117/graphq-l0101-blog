@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>0101</title>
+  </head>
+  <!-- //OPTIONAL MALE: #Male#, "MALE" LINE:A -->
+  <body>
+    <div id="info"></div>
+    <script>
+      fetch("http://localhost:3000/graphql", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          query: `
+            mutation {
+              createUser(data: {email: "Ryan@example.com", password: "123456", name: "Noah", gender: "MALE", age: 16}) {
+                id
+                email
+                name
+                gender
+                password
+                age
+              }
+            }
+        `,
+        }),
+      })
+        .then((response) => response.json())
+        .then((data) => {
+          document.querySelector("#info").innerHTML = `<pre> ${JSON.stringify(
+            data,
+            null,
+            2
+          )}</pre>`;
+        })
+        .catch((error) => console.error(error));
+    </script>
+  </body>
+</html>
