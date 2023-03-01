@@ -54,35 +54,15 @@ module.exports = {
       errors.push({ message: "Body is invalid." });
     }
 
-    
+    if (errors.length > 0) {
+      const error = new Error("Invalid input.");
+      error.date = errors;
+      error.code = 422;
 
+      throw error;
+    }
 
+    const post = new Post({ title: "tests", body: "tests", imageUrl });
+    await post.save();
   },
 };
-
-// SECTION_START LINE:B
-// OPTION DEFAULT
-// const { email, password } = args.data;
-
-// const user = await User.findByCredentials(email, password);
-
-// const token = await user.generateToken();
-
-// return { user, token };
-// OPTION CORRECT
-// const { email, password } = args.data;
-
-// const user = await User.findByCredentials(email, password);
-
-// const token = await user.generateToken();
-
-// return { id: user._id.toString(), token };
-// OPTION
-// const { email, password } = args.data;
-
-// const user = await User.findByCredentials(email, password);
-
-// const token = user.generateToken();
-
-// return { id: user._id.toString(), token };
-// SECTION_END

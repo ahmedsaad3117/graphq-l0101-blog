@@ -13,6 +13,10 @@ const postSchema = new mongoose.Schema(
       required: true,
     },
 
+    imageUrl:{
+      type: String,
+    }
+
     // owner: {
     //   type: mongoose.Types.ObjectId,
     //   required: true,
