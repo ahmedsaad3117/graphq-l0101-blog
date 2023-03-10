@@ -9,13 +9,13 @@ const auth = async (req, res, next) => {
 
     const user = await User.findOne({ _id: decode._id, "tokens.token": token });
 
-    if (!user) {  
+    if (!user) {
       throw new Error();
     }
 
     req.token = token;
-    req.user = user; 
-    req.isAuth = true
+    req.user = user;
+    req.isAuth = true; 
 
     next();
   } catch (err) {

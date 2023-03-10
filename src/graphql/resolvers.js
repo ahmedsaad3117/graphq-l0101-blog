@@ -20,6 +20,7 @@ module.exports = {
       const error = new Error("Email already registered");
       throw error;
     }
+
     const user = new User({
       name,
       email,
@@ -43,15 +44,15 @@ module.exports = {
   },
 
   createPost: async function (args, req) {
-    if(!req.isAuth){
-      const error = new Error("Please authenticate")
-      error.code = 401
-      throw error
+    if (!req.isAuth) {
+      const error = new Error("Please authenticate");
+      error.code = 401;
+      error.state = "🔒";
+      throw error;
     }
 
     const { title, body, imageUrl } = args.data;
     const errors = [];
-
     if (validator.isEmpty(title) || !validator.isLength(title, { min: 5 })) {
       errors.push({ message: "Title is invalid." });
     }
@@ -68,9 +69,19 @@ module.exports = {
       throw error;
     }
 
-    const post = new Post({ title: "tests", body: "tests", imageUrl });
+    const post = new Post({
+      title,
+      body,
+      imageUrl,
+      owner: req.user, 
+    });
+
     await post.save();
 
-    return post;
+    const postDoc = { id: post._id.toString(), ...post._doc };
+
+    console.log(postDoc);
+
+    return { state: "🔑", ...postDoc };
   },
 };

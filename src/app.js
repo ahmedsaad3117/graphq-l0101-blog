@@ -14,7 +14,9 @@ const cors = require("cors");
 const app = express();
 app.use(cors()); // create you own cors
 
-app.use(auth); // add auth
+app.use(auth);
+
+// 2 level first one is createing whole process secondone is about index.html the roken on it or the auth file
 
 app.use(
   "/graphql",
@@ -30,7 +32,8 @@ app.use(
       const data = err.originalError.data;
       const message = err.message || "An error occurred.";
       const code = err.originalError.code || 500;
-      return { message, status: code, data };
+      const state = err.originalError.code || "💥";
+      return { message, status: code, state, data };
     },
   })
 );

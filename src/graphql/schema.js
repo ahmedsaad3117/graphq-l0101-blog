@@ -40,15 +40,18 @@ module.exports = buildSchema(/* GraphQL */ `
   }
 
   type Post {
+    state: String!
     id: ID!
     title: String!
     body: String!
     imageUrl: String
+    owner: User!  
   }
 
-  type AuthData {
+  type AuthData { 
     id: ID!
     token: String!  
+    state: String!
   }
 
   enum Gender {

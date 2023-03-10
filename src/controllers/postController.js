@@ -12,9 +12,8 @@ exports.createPost = async (req, res) => {
     });
   } catch (err) {
     console.log(err);
-    // logger.error("Server",err)
+    // logger.error("Server",err) 
     res.status(500).send();
-    hkgjkhgljkhg;
   }
 };
 

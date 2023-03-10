@@ -1,39 +1,43 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <title>0101</title>
-  </head>
-  <!-- //OPTIONAL MALE: #Male#, "MALE" LINE:A -->
-  <body>
-    <div id="info"></div>
-    <script>
-      fetch("http://localhost:3000/graphql", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          query: `
-            mutation {
-              createUser(data: {email: "Ryan@example.com", password: "123456", name: "Noah", gender: "MALE", age: 16}) {
+
+<head>
+  <title>0101</title>
+</head>
+
+<body>
+  <div id="info"></div>
+  <script>
+    fetch("http://localhost:3000/graphql", {
+      method: "POST",
+      headers: { "Content-Type": "application/json", Authorization: "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2M2ZlMGIzZjkxMGQ0Nzg2MmYwZGViMDMiLCJpYXQiOjE2Nzc3MDA3Nzh9.Vri8lOpXH2epfJKEIbkYia_PHAmhQSBmCSMMOjVcUDU" },
+      body: JSON.stringify({
+        query: `
+          mutation {
+            createPost(data: {title: "GraphQl", body: "GraphQL Post", imageUrl: "link//example.com"}) {
+                state
                 id
-                email
-                name
-                gender
-                password
-                age
-              }
+                title
+                body
+                imageUrl
+                owner{
+                    name
+                }
             }
+          }
         `,
-        }),
+      }),
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        document.querySelector("#info").innerHTML = `<pre> ${JSON.stringify(
+          data,
+          null,
+          2
+        )}</pre>`;
       })
-        .then((response) => response.json())
-        .then((data) => {
-          document.querySelector("#info").innerHTML = `<pre> ${JSON.stringify(
-            data,
-            null,
-            2
-          )}</pre>`;
-        })
-        .catch((error) => console.error(error));
-    </script>
-  </body>
+      .catch((error) => console.error(error));
+  </script>
+</body>
+
 </html>
