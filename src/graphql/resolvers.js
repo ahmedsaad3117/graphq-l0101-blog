@@ -83,15 +83,22 @@ module.exports = {
     return { state: "🔑", ...postDoc };
   },
 
-  posts: async function (args, req) {
+  posts: async function ({ page }, req) {
     if (!req.isAuth) {
       const error = new Error("Please authenticate");
       error.code = 401;
       error.state = "🔒";
       throw error;
     }
+    const perPage = 2;
 
-    const posts = await Post.find();
+    const posts = await Post.find()
+      .skip((page - 1) * perPage)
+      .limit(perPage);
+
+    if (!page) {
+      page = 1;
+    }
 
     return posts;
   },
