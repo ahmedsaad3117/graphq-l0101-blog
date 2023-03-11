@@ -95,10 +95,11 @@ module.exports = {
       page = 1;
     }
 
+    const postsCount = await Post.find().countDocuments();
     const posts = await Post.find()
       .skip((page - 1) * perPage)
       .limit(perPage);
 
-    return posts;
+    return { postsCount, posts };
   },
 };

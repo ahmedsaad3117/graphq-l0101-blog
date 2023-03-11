@@ -3,7 +3,7 @@ const { buildSchema } = require("graphql");
 module.exports = buildSchema(/* GraphQL */ `
   type RootQuery {
     login(data: UserAuthInput!): AuthData!
-    posts(page: Int): [Post!]!
+    posts(page: Int): PostsData!
   }
 
   type RootMutation {
@@ -55,7 +55,7 @@ module.exports = buildSchema(/* GraphQL */ `
   }
   
   type PostsData {
-    totalPostsNum: Int!
+    postsCount: Int!
     posts: [Post!]!
   }
 
