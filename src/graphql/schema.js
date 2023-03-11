@@ -3,6 +3,7 @@ const { buildSchema } = require("graphql");
 module.exports = buildSchema(/* GraphQL */ `
   type RootQuery {
     login(data: UserAuthInput!): AuthData!
+    posts: [Post!]!
   }
 
   type RootMutation {
@@ -40,7 +41,6 @@ module.exports = buildSchema(/* GraphQL */ `
   }
 
   type Post {
-    state: String!
     id: ID!
     title: String!
     body: String!

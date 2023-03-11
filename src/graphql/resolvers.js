@@ -8,7 +8,7 @@ module.exports = {
     return {
       name: "Adam",
       age: 18,
-    }; 
+    };
   },
 
   createUser: async function ({ data }) {
@@ -73,7 +73,7 @@ module.exports = {
       title,
       body,
       imageUrl,
-      owner: req.user, 
+      owner: req.user,
     });
 
     await post.save();
@@ -83,8 +83,7 @@ module.exports = {
     return { state: "🔑", ...postDoc };
   },
 
-
-  posts: async function(args,req){
+  posts: async function (args, req) {
     if (!req.isAuth) {
       const error = new Error("Please authenticate");
       error.code = 401;
@@ -92,10 +91,8 @@ module.exports = {
       throw error;
     }
 
-    const posts = await Post.find()
-    const totalPosts = posts.countDocuments()
+    const posts = await Post.find();
 
-    console.log(totalPosts)
-  }
-
+    return posts;
+  },
 };
