@@ -91,14 +91,13 @@ module.exports = {
       throw error;
     }
     const perPage = 2;
+    if (!page) {
+      page = 1;
+    }
 
     const posts = await Post.find()
       .skip((page - 1) * perPage)
       .limit(perPage);
-
-    if (!page) {
-      page = 1;
-    }
 
     return posts;
   },

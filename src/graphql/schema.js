@@ -53,6 +53,11 @@ module.exports = buildSchema(/* GraphQL */ `
     token: String!  
     state: String!
   }
+  
+  type PostsData {
+    totalPostsNum: Int!
+    posts: [Post!]!
+  }
 
   enum Gender {
     MALE
