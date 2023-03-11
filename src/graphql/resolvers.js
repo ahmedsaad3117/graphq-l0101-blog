@@ -8,7 +8,7 @@ module.exports = {
     return {
       name: "Adam",
       age: 18,
-    };
+    }; 
   },
 
   createUser: async function ({ data }) {
@@ -80,8 +80,22 @@ module.exports = {
 
     const postDoc = { id: post._id.toString(), ...post._doc };
 
-    console.log(postDoc);
-
     return { state: "🔑", ...postDoc };
   },
+
+
+  posts: async function(args,req){
+    if (!req.isAuth) {
+      const error = new Error("Please authenticate");
+      error.code = 401;
+      error.state = "🔒";
+      throw error;
+    }
+
+    const posts = await Post.find()
+    const totalPosts = posts.countDocuments()
+
+    console.log(totalPosts)
+  }
+
 };
