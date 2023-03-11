@@ -4,22 +4,23 @@ module.exports = buildSchema(/* GraphQL */ `
   type RootQuery {
     login(data: UserAuthInput!): AuthData!
     posts(page: Int): PostsData!
+    post(id: ID!): Post!
   }
 
   type RootMutation {
     createUser(data: CreateUserInput!): User!
 
-    createPost(data: CreatePostInput!): Post!
+    createPost(data: CreatePostInput!): Post! 
   }
 
   input UserAuthInput {
     email: String!
-    password: String!
+    password: String! 
   }
 
   input CreateUserInput {
     name: String!
-    email: String!
+    email: String!  
     gender: Gender!
     password: String!
     age: Int!
@@ -46,13 +47,12 @@ module.exports = buildSchema(/* GraphQL */ `
     body: String!
     imageUrl: String
     owner: User!  
-  }
+  }       
 
   type AuthData { 
     id: ID!
     token: String!  
-    state: String!
-  }
+  }    
   
   type PostsData {
     postsCount: Int!

@@ -97,9 +97,35 @@ module.exports = {
 
     const postsCount = await Post.find().countDocuments();
     const posts = await Post.find()
+      .populate("owner")
       .skip((page - 1) * perPage)
       .limit(perPage);
+    console.log(posts);
 
     return { postsCount, posts };
+  },
+
+  post: async function ({ id }, req) {
+    if (!req.isAuth) {
+      const error = new Error("Please authenticate");
+      error.code = 401;
+      error.state = "🔒";
+      throw error;
+    }
+
+    const post = await Post.findOne({ _id: id }).populate("owner")
+
+    if (!post) {
+      const error = new Error("No post found!");
+      error.code = 404;
+      throw error;
+    }
+
+    console.log(post)
+
+    return {
+      ...post._doc,
+      _id: post._id.toString()
+    };
   },
 };
