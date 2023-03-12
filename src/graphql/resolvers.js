@@ -73,18 +73,13 @@ module.exports = {
       title,
       body,
       imageUrl,
-      owner: req.user,
+      owner: req.user._id,
     });
 
     await post.save();
-
-    const user = await User.findById(req.user._id).populate('posts')
-    user.posts.push(post);
-    await user.save();
-
     const postDoc = { id: post._id.toString(), ...post._doc };
 
-    return { state: "🔑", ...postDoc }; 
+    return postDoc;
   },
 
   posts: async function ({ page }, req) {
@@ -155,8 +150,9 @@ module.exports = {
       throw error;
     }
 
-    await Post.pull(id);
-    const user = await User.findById(req.user._id);
+    await Post.findByIdAndDelete(id);
+    const user = await User.findById(req.user._id).populate("posts");
+    console.log(user);
     user.posts.pull(id);
 
     await user.save();
