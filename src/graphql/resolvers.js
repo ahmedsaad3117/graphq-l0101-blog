@@ -113,7 +113,7 @@ module.exports = {
       throw error;
     }
 
-    const post = await Post.findOne({ _id: id }).populate("owner")
+    const post = await Post.findOne({ _id: id }).populate("owner");
 
     if (!post) {
       const error = new Error("No post found!");
@@ -121,11 +121,41 @@ module.exports = {
       throw error;
     }
 
-    console.log(post)
+    console.log(post);
 
     return {
       ...post._doc,
-      _id: post._id.toString()
+      _id: post._id.toString(),
     };
+  },
+
+  deletePost: async function ({ id }, req) {
+    if (!req.isAuth) {
+      const error = new Error("Please authenticate");
+      error.code = 401;
+      error.state = "🔒";
+      throw error;
+    }
+
+    const post = await Post.findById(id);
+
+    if (!post) {
+      const error = new Error("No post found!");
+      error.code = 404;
+      throw error;
+    }
+
+    if (post.owner.toString() !== req.user._id.toString()) {
+      const error = new Error("Not authorized!");
+      error.code = 403;
+      throw error;
+    }
+
+    await Post.findByIdAndDelete(id);
+    const user = await User.findById(req.user._id);
+    user.posts.pull(id);
+
+    await user.save();
+    return true;
   },
 };

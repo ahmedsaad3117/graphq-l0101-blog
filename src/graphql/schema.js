@@ -11,6 +11,8 @@ module.exports = buildSchema(/* GraphQL */ `
     createUser(data: CreateUserInput!): User!
 
     createPost(data: CreatePostInput!): Post! 
+
+    deletePost(id: ID!): Boolean!
   }
 
   input UserAuthInput {
