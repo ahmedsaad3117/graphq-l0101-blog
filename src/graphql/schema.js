@@ -41,6 +41,7 @@ module.exports = buildSchema(/* GraphQL */ `
     gender: Gender!
     password: String!
     age: Int!
+    posts: [Post!]!
   }
 
   type Post {
